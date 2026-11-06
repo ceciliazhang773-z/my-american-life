@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: my-american-life
+    runtime: node
+    plan: free
+    buildCommand: ""
+    startCommand: node server.js
+    healthCheckPath: /api/status
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: AI_MODEL
+        value: gemini-3.8-flash
+      - key: AI_BASE_URL
+        value: https://generativelanguage.googleapis.com/v1beta/openai
+      - key: GEMINI_API_KEY
+        sync: false

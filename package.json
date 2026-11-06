@@ -1,0 +1,8 @@
+{
+  "name": "my-american-life",
+  "version": "3.0.0",
+  "private": true,
+  "description": "First-person AI American homestay life simulator",
+  "scripts": {"start":"node server.js"},
+  "engines": {"node":">=20"}
+}

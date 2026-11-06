@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#172820">
+<title>My American Life</title>
+<link rel="manifest" href="/manifest.webmanifest">
+<style>
+:root{--forest:#172820;--forest2:#22382e;--cream:#f0eadc;--gold:#d8bd87;--muted:#b9c2b7}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#101b16;color:var(--cream);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button,input{font:inherit}button{cursor:pointer}
+.app{min-height:100dvh;max-width:900px;margin:auto;background:var(--forest);display:flex;flex-direction:column}
+.topbar{height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:#172820;border-bottom:1px solid #ffffff18}
+.brand{font-size:12px;letter-spacing:.16em;font-weight:800}.brand span{display:block;color:#9caa9d;font-size:9px;letter-spacing:.2em;margin-top:3px;font-weight:500}
+.top-actions{display:flex;gap:7px}.mini{border:1px solid #ffffff35;background:#ffffff0b;color:var(--cream);border-radius:24px;padding:8px 11px;font-size:11px}
+.stage{height:min(62dvh,650px);min-height:420px;position:relative;overflow:hidden;isolation:isolate;background:#b7a58c}
+.backdrop{position:absolute;inset:0;transition:background .4s}
+.backdrop.kitchen{background:linear-gradient(180deg,#d8c6a6 0 56%,#80664d 56% 60%,#5b4838 60%)}
+.backdrop.kitchen:before{content:"";position:absolute;left:7%;top:10%;width:31%;height:32%;border:10px solid #f1e6d1;background:linear-gradient(145deg,#9eb5b2,#dce0d4);box-shadow:0 8px 20px #30251b55}
+.backdrop.kitchen:after{content:"";position:absolute;left:0;right:0;bottom:17%;height:18%;background:linear-gradient(90deg,#73543c,#b18a60,#76573f);box-shadow:0 10px 24px #22180f66}
+.backdrop.store{background:linear-gradient(180deg,#c7c9c2 0 18%,#ede9de 18% 76%,#999b91 76%)}
+.backdrop.store:before{content:"";position:absolute;left:0;right:0;top:18%;height:44%;background:repeating-linear-gradient(90deg,#82947d 0 12%,#e9ddc6 12% 13%,#b9a27d 13% 24%,#eee6d7 24% 25%)}
+.backdrop.school{background:linear-gradient(180deg,#c3cecb 0 18%,#c9b391 18% 100%)}
+.backdrop.school:before{content:"";position:absolute;inset:18% 0 0;background:repeating-linear-gradient(90deg,#687c79 0 12%,#9caaa0 12% 13%,#cdbb9b 13% 26%,#b9a580 26% 27%)}
+.backdrop.living{background:linear-gradient(180deg,#806a58 0 59%,#5c4537 59% 100%)}
+.backdrop.living:before{content:"";position:absolute;left:0;right:0;top:8%;height:42%;background:linear-gradient(90deg,#243c34 0 24%,#b69a70 24% 26%,#354b3e 26% 70%,#b69a70 70% 72%,#263c34 72%);opacity:.9}
+.backdrop.living:after{content:"";position:absolute;left:9%;right:9%;bottom:13%;height:23%;border-radius:30px 30px 8px 8px;background:#805447;box-shadow:0 12px 0 #4f382e}
+.backdrop.schoolcafe{background:linear-gradient(180deg,#c8d0c8 0 24%,#b7a68a 24% 100%)}
+.backdrop.schoolcafe:before{content:"";position:absolute;inset:24% 0 20%;background:repeating-linear-gradient(90deg,#c4b08f 0 18%,#8e9d91 18% 19%,#d9c7a9 19% 37%,#a7a28e 37% 38%)}
+.shade{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,#0b17114a 0%,transparent 34%,#0d1814b8 100%);pointer-events:none}
+.hud{position:absolute;z-index:4;top:14px;left:15px;right:15px;display:flex;justify-content:space-between;align-items:center}
+.pill{background:#11231bc9;border:1px solid #ffffff35;border-radius:25px;padding:8px 12px;font-size:10px;backdrop-filter:blur(10px)}
+.people{position:absolute;z-index:3;inset:0;display:flex;align-items:flex-end;justify-content:center;gap:clamp(4px,3vw,25px);padding:0 4% 12%;pointer-events:none}
+.person{position:relative;width:clamp(70px,15vw,132px);height:65%;display:flex;align-items:flex-end;justify-content:center;filter:drop-shadow(0 12px 10px #17130e66);transition:transform .35s}
+.person.talking{transform:translateY(-8px)}
+.person .body{position:absolute;bottom:0;width:90%;height:62%;background:var(--shirt);clip-path:polygon(17% 0,83% 0,100% 100%,0 100%)}
+.person .head{position:absolute;bottom:56%;width:46%;aspect-ratio:.82;border-radius:45% 45% 43% 43%;background:var(--skin);z-index:2;box-shadow:inset -5px -3px 0 #00000012}
+.person .hair{position:absolute;z-index:3;bottom:86%;width:53%;height:18%;border-radius:70% 70% 25% 25%;background:var(--hair)}
+.person .tag{position:absolute;bottom:-19px;font-size:9px;color:#fff;text-shadow:0 1px 5px #000;white-space:nowrap}
+.you{--shirt:#38576a;--skin:#d5a47d;--hair:#24211e}.mom{--shirt:#879777;--skin:#e1b792;--hair:#806047}
+.dad{--shirt:#526e64;--skin:#d3a27c;--hair:#554336}.son{--shirt:#76658f;--skin:#d7aa89;--hair:#48352a}
+.daughter{--shirt:#bd7c78;--skin:#efc39e;--hair:#795239}.clerk{--shirt:#53727a;--skin:#bd8968;--hair:#332821}.classmate{--shirt:#b17a55;--skin:#d6a27e;--hair:#48362c}
+.voice-state{position:absolute;z-index:4;bottom:25%;left:50%;transform:translateX(-50%);padding:8px 14px;border:1px solid #ffffff35;border-radius:30px;background:#102119c9;backdrop-filter:blur(8px);font-size:10px;white-space:nowrap;display:flex;align-items:center;gap:7px}
+.wave{display:flex;align-items:center;gap:3px;height:14px}.wave i{width:3px;height:5px;border-radius:3px;background:#e2c58d;animation:wave .65s infinite ease-in-out alternate}.wave i:nth-child(2){animation-delay:.12s}.wave i:nth-child(3){animation-delay:.24s}.wave i:nth-child(4){animation-delay:.36s}
+@keyframes wave{to{height:13px;opacity:.45}}
+.control-panel{padding:16px 16px max(18px,env(safe-area-inset-bottom));background:linear-gradient(180deg,#1d3027,#14221b);flex:1}
+.scene-name{font:25px Georgia,serif;margin:0 0 4px}.scene-note{font-size:11px;color:#b4c0b5;margin:0 0 13px}
+.status{min-height:21px;text-align:center;color:#d8c18e;font-size:11px;margin-bottom:9px}
+.controls{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.ctrl{min-height:65px;border:1px solid #ffffff25;border-radius:14px;background:#ffffff0b;color:#f3eee3;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;font-size:10px}
+.ctrl b{font-size:20px;font-weight:400}.ctrl:active{transform:scale(.97)}
+.mic-row{display:flex;justify-content:center;gap:8px;margin-top:12px}
+.mic{min-width:190px;border:0;border-radius:28px;padding:13px 20px;background:#e3d5b8;color:#20352a;font-weight:800;font-size:13px}
+.mic.active{background:#bd6d5a;color:#fff;animation:ring 1.2s infinite}
+@keyframes ring{50%{box-shadow:0 0 0 8px #bd6d5a35}}
+.footer{display:flex;justify-content:space-between;color:#87968b;font-size:9px;margin-top:13px}
+.modal{position:fixed;inset:0;background:#0009;z-index:10;display:none;align-items:flex-end;justify-content:center}.modal.open{display:flex}
+.sheet{width:min(100%,620px);background:#f2ede2;color:#26382f;border-radius:22px 22px 0 0;padding:22px;max-height:82dvh;overflow:auto}
+.sheet h2{font:25px Georgia;margin:0 0 7px}.sheet p{font-size:12px;line-height:1.6;color:#5b685e}
+.sheet input{width:100%;padding:12px;border:1px solid #c8c8b9;border-radius:10px;margin:7px 0 12px;background:white;color:#26382f}
+.action{border:0;border-radius:11px;background:#263e32;color:#fff;padding:12px 16px;margin:4px 5px 4px 0}.secondary{background:#e0e3d8;color:#26382f}
+#typedInput{display:none}.type-row{display:flex;gap:7px}.type-row input{flex:1;min-width:0}
+.small{font-size:10px;color:#6b766e}
+@media(max-width:520px){.stage{height:55dvh;min-height:380px}.people{padding-bottom:17%}.person{height:60%;width:19vw}.voice-state{bottom:28%}.scene-name{font-size:22px}.control-panel{padding:14px 12px max(17px,env(safe-area-inset-bottom))}.ctrl{min-height:60px}}
+</style>
+</head>
+<body>
+<div class="app">
+ <header class="topbar">
+  <div class="brand">MY AMERICAN LIFE<span>YOUR EVERYDAY LIFE IN THE U.S.</span></div>
+  <div class="top-actions"><button class="mini" id="newScene">↻ 换个场景</button><button class="mini" id="settings">⚙</button></div>
+ </header>
+ <main class="stage">
+  <div class="backdrop kitchen" id="backdrop"></div><div class="shade"></div>
+  <div class="hud"><span class="pill" id="clock">7:35 AM · MONDAY</span><span class="pill" id="weather">☀️ 生活进行中</span></div>
+  <div class="people" id="people"></div>
+  <div class="voice-state"><span class="wave"><i></i><i></i><i></i><i></i></span><span id="activity">家里传来轻微的生活声响</span></div>
+ </main>
+ <section class="control-panel">
+  <h1 class="scene-name" id="sceneTitle">早晨 · 家庭早餐</h1>
+  <p class="scene-note" id="sceneNote">你走进厨房，寄宿妈妈正在准备早餐。</p>
+  <div class="status" id="status">点击开始，进入今天的生活。</div>
+  <div class="controls">
+   <button class="ctrl" id="repeat"><b>↻</b>再说一遍</button>
+   <button class="ctrl" id="rephrase"><b>?</b>没听懂</button>
+   <button class="ctrl" id="listen"><b>◖</b>只听他们聊</button>
+   <button class="ctrl" id="help"><b>✎</b>我想怎么表达</button>
+  </div>
+  <div class="mic-row"><button class="mic" id="start">▶ 开始今天的生活</button></div>
+  <div id="typedInput"><div class="type-row"><input id="typedText" placeholder="在这里输入你想说的话（中文或英文）"><button class="action" id="sendTyped">发送</button></div></div>
+  <div class="footer"><span>无字幕 · 第一人称生活模拟</span><span id="voiceInfo">语音功能检测中</span></div>
+ </section>
+</div>
+<div class="modal" id="settingsModal"><div class="sheet">
+ <h2>设置</h2><p>AI 密钥由服务端安全保存。你不需要在网页里填写或公开 API Key。</p>
+ <label class="small">你的称呼（可选）</label><input id="myName" placeholder="例如 Cecilia">
+ <label class="small">语音速度</label><input id="speed" type="range" min=".78" max="1.08" step=".05" value=".92">
+ <p class="small">如果浏览器不支持语音识别，可以使用文字输入；角色仍会用英语语音回应。推荐 Android Chrome 或桌面 Chrome/Edge。iPhone Safari 的语音识别支持可能因系统版本而异。</p>
+ <button class="action" id="saveSettings">保存</button><button class="action secondary" id="closeSettings">关闭</button>
+ </div></div>
+<script src="/app.js"></script>
+</body></html>
